@@ -60,7 +60,7 @@ def build_pipeline():
 def run_query(query: str, search: HybridSearch, reranker: CrossEncoderReranker) -> tuple[str, list[str]]:
     """Run single query through pipeline."""
     results = search.search(query)
-    docs = [{"text": r.text, "score": r.score, "metadata": r.metadata} for r in results]
+    docs = [{"text": r.text, "score": r.score, "metadata": r.metadata} for r in results[:3]]
     reranked = reranker.rerank(query, docs, top_k=RERANK_TOP_K)
     contexts = [r.text for r in reranked] if reranked else [r.text for r in results[:3]]
 
